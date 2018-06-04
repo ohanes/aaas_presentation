@@ -1,0 +1,175 @@
+\documentclass{beamer}
+   \usetheme{PaloAlto}
+   % make math fonts look like article
+   \usefonttheme[onlymath]{serif} 
+
+   % Title page metadata
+   \title[Neuro Fuzzy Hybridization]
+   {A Neuro Fuzzy Hybridization Model for Nonlinear Control of a Fixed Wing UAV}
+   \subtitle{Human-like Reasoning within Connectionist Structure}
+   \author[Dadian]
+   {Ohanes ~Dadian\inst{1} \\
+   {Software Engineer} \\
+   {Northrop Grumman Corporation}}
+   \subject{Computer Science}
+
+\begin{document}
+   \frame{\titlepage}
+
+   \section{Topics}
+
+   \begin{frame}
+      \frametitle{What is Fuzzy Logic?}
+      \begin{itemize}
+         \item Fuzzy logic is a form of many-valued logic.
+         \begin{itemize}
+            \item Truth tables of variables may be any real number between 0 and 1.
+            \item Provides capability of deriving partial truth.
+            \item Fuzzy logic was introduced in 1965 by Lofti Zadeh.
+         \end{itemize}
+         \item Came out of early research in fuzzy set theory.
+         \item Dating back to the 1920s with Lukasiewicz and Tarski.
+         \item Popular applications in control theory and artificial intelligence.
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Fuzzification}
+      \begin{itemize}
+         \item The following steps allow data to be fuzzified.
+         \begin{itemize}
+            \item Fuzzify all input values into fuzzy membership functions.
+            \item Execute all applicable rules into the rulebase to compute fuzzy output functions.
+            \item De-fuzzify the fuzzy output functions to get "crisp" output values.
+         \end{itemize}
+      \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Fuzzy Logic Example}
+      \begin{columns}[T]
+         \begin{column}[T]{5cm}
+            \begin{itemize}
+               \item Let us run through an example of this process against the concept of temperature.
+               \item Per the image, we have three expressions: cold, warm, and hot.
+               \item These expressions map to functions mapping to the temperature scales.
+            \end{itemize}
+         \end{column}
+         \begin{column}[T]{5cm}
+            \includegraphics[height=2cm]{fuzzy_logic_temperature}
+         \end{column}
+      \end{columns}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Fuzzy Logic Example}
+      \begin{itemize}
+         \item A point on this scale has three truth values.
+         \begin{itemize}
+            \item One for each of the three functions.
+         \end{itemize}
+         \item The vertical arrow depicts a particular temperature.
+         \item Red arrow points to zero, i.e. not hot.
+         \item Orange arrow points at 0.2, i.e. slightly warm.
+         \item Blue arrow points at 0.8, i.e. fairly cold.
+      \end{itemize} 
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Fuzzy Sets}
+      \begin{columns}[T]
+         \begin{column}[T]{5cm}
+            \begin{itemize}
+               \item Fuzzy sets are generally defined as traingle or trapezoid-shaped curves.
+               \begin{itemize}
+                  \item Each value has a slope where value is increasing, peak of 1, and a slope where the value is decreasing.
+                  \item Can also be modeled as a sigmoid.
+               \end{itemize}
+            \end{itemize}
+         \end{column}
+         \begin{column}[T]{5cm}
+            \begin{center}
+               \underline{Logistic Sigmoid} \\
+               $ x = \frac{e^{x}}{e^{x}+1} $ \\
+               $ S(x) + S(-x) =  1 $ \\
+               $ (S(x) + S(-x)) \times (S(y) + S(-y)) \times (S(z) + S(-z)) = 1 $ 
+            \end{center}
+         \end{column}
+      \end{columns}
+   \end{frame}
+   
+   \begin{frame}
+      \frametitle{Fuzzy Logic Operators}
+      \begin{columns}[T]
+        \begin{column}[T]{5cm}
+            \begin{itemize}
+               \item Fuzzy logic works with membership values in a way that mimics boolean logic.
+               \item There are altertives for the operator counterparts.
+               \item There are other operators available called hedges.
+               \item These are generally adverbs such as very, or somewhat, which modify the meaning of a set using a mathematical formula.
+            \end{itemize}
+        \end{column}
+        \begin{column}[T]{5cm}
+            \begin{tabular}{| c | c |}
+               \hline
+               Boolean & Fuzzy \\
+               \hline
+               AND(x,y) & MIN(x,y) \\
+               OR(x,y)  & MAX(x,y) \\
+               NOT(x) & 1 - x \\
+               \hline
+            \end{tabular}
+        \end{column}
+      \end{columns}
+   \end{frame}
+
+   \begin{frame}
+      \begin{columns}[T]
+         \begin{column}[T]{5cm}
+            \begin{itemize}
+               \item A fuzzy logic function represents a disjunction of constituents of minimum, where a constituent of minimum is a conjunction of variables of the current area greater than or equal to the function value in this area.
+               \item Another set of AND/OR operators are based on multiplication.
+               \item 1-(1-x)*(1-y) comes from this.
+            \end{itemize}
+         \end{column}
+         \begin{column}[T]{5cm}
+            x AND y = x*y \\
+            x OR y = 1-(1-x)*(1-y) = x+y-x*y \\
+            x OR y = NOT( AND( NOT(x), NOT(y) ) ) \\
+            x OR y = NOT( AND(1-x, 1-y) ) \\
+            x OR y = NOT( (1-x)*(1-y) ) \\
+            x OR y = 1-(1-x)*(1-y)
+         \end{column}
+      \end{columns}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{IF-THEN Rule Sets}
+      \begin{columns}[T]
+         \begin{column}[T]{5cm}
+            \begin{itemize}
+               \item IF-THEN rules map input or computed truth values to desired output truth values.
+               \item Given a certain temperature, the fuzzy variable hot has a certain truth value, which is copied to the high variable.
+               \item If an output variable exists in many THEN parts, then values from the IF parts are combined using the OR operator.
+            \end{itemize}
+         \end{column}
+         \begin{column}[T]{5cm}
+            IF temperature IS very cold THEN fanSpeed is stopped \\
+            IF temperature IS cold THEN fanSpeed is slow \\
+            IF temperature IS warm THEN fanSpeed is moderate \\
+            IF temperature IS hot THEN fanSpeed is high
+         \end{column}
+     \end{columns}
+   \end{frame}
+
+   \begin{frame}
+      \frametitle{Defuzzification}
+      \begin{itemize}
+         \item The goal is to get a continuous variable from fuzzy truth values.
+         \item For each truth value, cut the membership function at this value
+         \item Combine the resulting curves using the OR operator
+         \item Find the center-of-weight of the area under the curve
+         \item The x position of this center is then the final output.
+      \end{itemize}
+   \end{frame}
+\end{document}
