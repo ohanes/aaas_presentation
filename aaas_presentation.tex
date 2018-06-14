@@ -24,7 +24,7 @@
          \item Neuro Fuzzy Hybridization
          \item Fuzzy Logic
          \item Neural Networks
-         \item Neuro Fuzzy Inference System (NFIS)
+         \item Adaptive Neuro Fuzzy Inference System (ANFIS)
       \end{itemize}
    \end{frame}
    
@@ -36,7 +36,7 @@
          \item Neuro Fuzzy Hybridization is a hybrid-intelligent agent that combines a neural network with a fuzzy logic controller.
          \item The fuzzy logic controller provides human-like reasoning.
          \item The neural network provides learning and connectionist structure.
-         \item Commonly referred to as neuro-fuzzy systems (NFS) or neuro-fuzzy inference systems (NFIS).
+         \item Commonly referred to as adaptive neuro-fuzzy inference systems (ANFIS).
       \end{itemize}
    \end{frame}
 
@@ -264,12 +264,14 @@
    \section{ANFIS}
 
    \begin{frame}
-      \frametitle{Artifical Neuro Fuzzy Inference System (ANFIS)}
+      \frametitle{Adaptive Neuro Fuzzy Inference System (ANFIS)}
       \begin{itemize}
+         \item Class of artificial neural network that is based on the Takagi-Sugeno fuzzy inference system.
+         \item Considered a universal estimator.
          \item Provides a means of learning and adaptation.
-         \item The Neural Network allows the Fuzzy Logic controller to be more systematic and less reliant on expert knowledge.
+         \item The provided the means to deduce.
          \item The fuzzy inference system is trained using least square regression and gradient descent.
-         \item The Neuro Fuzzy inference system is structured so that all possible situations may occur to the vehicle.
+         \item The ANFIS is structured so that all possible situations may occur to the vehicle.
       \end{itemize}
    \end{frame}
 
@@ -324,7 +326,10 @@
       \begin{itemize}
          \item Hybrid Learning is used a train the ANFIS.
          \item Combines least squares regression and gradient decent.
+         \item The  output  is  a  linear  combination  of  parameters.  
+         \item When the default parameters are fixed, total output is a linear combination of output parameters.
       \end{itemize}
+      $ O_{m,i} = w_1 \times f_1 + w_2 \times f_2 + ... + w_m \times f_m $
    \end{frame}
    
    \begin{frame}
@@ -366,7 +371,7 @@
    \begin{frame}
       \frametitle{Conclusion}
       \begin{itemize}
-         \item Hybridization model can successfully perform identification and nonlinear control of UAVs.
+         \item ANFIS can successfully perform identification and nonlinear control of UAVs.
          \item Able to perform both offline and online learning.
          \item Offline training allows for inversion of feedback linearization to be computed.
          \item Simulation showed controller performance significantly improved in both open and closed loop responses.
